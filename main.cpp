@@ -1,0 +1,146 @@
+#include <iostream>
+#include<conio.h>
+
+using namespace std;
+
+class Node {
+public:
+	int data;
+	Node* next;
+
+	Node(){
+		data = 0;
+		next = NULL;
+	}
+
+	Node(int data){
+		this->data = data;
+		this->next = NULL;
+	}
+};
+
+
+class Linkedlist {
+	Node* head;
+
+public:
+
+	Linkedlist() {
+	    head = NULL;
+    }
+
+	void insertNode(int);
+	void printList();
+	void deleteNode(int);
+};
+
+void Linkedlist::deleteNode(int nodeOffset)
+{
+	Node *temp1 = head, *temp2 = NULL;
+	int ListLen = 0;
+
+	if (head == NULL) {
+		cout << "List empty." << endl;
+		return;
+	}
+
+	while (temp1 != NULL) {
+		temp1 = temp1->next;
+		ListLen++;
+	}
+
+	if (ListLen < nodeOffset) {
+		cout << "Index out of range"<< endl;
+		return;
+	}
+
+	temp1 = head;
+
+	if (nodeOffset == 1) {
+
+		head = head->next;
+		delete temp1;
+		return;
+	}
+
+	while (nodeOffset-- > 1) {
+
+		temp2 = temp1;
+		temp1 = temp1->next;
+	}
+
+	temp2->next = temp1->next;
+	delete temp1;
+}
+
+void Linkedlist::insertNode(int data)
+{
+	Node* newNode = new Node(data);
+	if (head == NULL) {
+		head = newNode;
+		return;
+	}
+	Node* temp = head;
+	while (temp->next != NULL)
+		temp = temp->next;
+
+	temp->next = newNode;
+}
+
+void Linkedlist::printList()
+{
+	Node* temp = head;
+
+	if (head == NULL) {
+		cout << "List empty" << endl;
+		return;
+	}
+
+	while (temp != NULL) {
+		cout << temp->data << " ";
+		temp = temp->next;
+	}
+}
+
+int main()
+{
+	Linkedlist list;
+
+	while(1) {
+        system("cls");
+        cout<<"Linked List Implementation";
+        cout<<"\n1. Insert\n2. Delete\n3. Print\n4. Exit";
+        int choice;
+        cout<<"\nEnter your choice: ";
+        cin>>choice;
+        system("cls");
+        switch(choice) {
+        case 1:
+            cout<<"Enter data to insert: ";
+            int data;
+            cin>>data;
+            list.insertNode(data);
+            cout<<"\nElement inserted.";
+            break;
+        case 2:
+            cout<<"Enter position number: ";
+            int pos;
+            cin>>pos;
+            list.deleteNode(pos);
+            cout<<"\nElement deleted.";
+            break;
+        case 3:
+            list.printList();
+            break;
+        case 4:
+            cout<<"Thank you";
+            return 0;
+        default:
+            cout<<"Wrong Input!!";
+        }
+        cout<<"\n\nPress Enter to continue...";
+        getch();
+	}
+	return 0;
+}
+
